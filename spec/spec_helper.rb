@@ -1,7 +1,7 @@
 require 'rails/railtie'
 require 'time_will_tell'
 
-I18n.load_path += Dir[ File.join(File.dirname(__FILE__), '../lib/generators/time_will_tell/templates/config/locales/*.yml') ]
+I18n.load_path += Dir[ File.join(File.dirname(__FILE__), '../lib/generators/time_will_tell/install/templates/config/locales/*.yml') ]
 I18n.load_path += Dir[ File.join(File.dirname(__FILE__), './fixtures/locales/*.yml') ]
 I18n.default_locale = :en
 
