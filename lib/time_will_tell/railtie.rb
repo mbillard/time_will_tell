@@ -4,7 +4,11 @@ require 'time_will_tell/helpers/date_range_helper'
 
 module TimeWillTell
   class Railtie < Rails::Railtie
-    config.eager_load_namespaces << TimeWillTell::Helpers::DateHelper
-    config.eager_load_namespaces << TimeWillTell::Helpers::DateRangeHelper
+    initializer "time_will_tell.helpers.date_helper" do
+      ActionView::Base.send :include, TimeWillTell::Helpers::DateHelper
+    end
+    initializer "time_will_tell.helpers.date_range_helper" do
+      ActionView::Base.send :include, TimeWillTell::Helpers::DateRangeHelper
+    end
   end
 end
