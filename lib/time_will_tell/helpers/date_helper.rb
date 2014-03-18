@@ -34,32 +34,36 @@ module TimeWillTell
 
             if count == 30 && unit == :minute
               if distance_in_words.empty?
-                distance_in_words << locale.t(:half_an_hour)
+                distance_in_words << locale.t(:'special.half_an_hour')
               else
-                distance_in_words << locale.t(:and_a_half)
+                distance_in_words << locale.t(:'special.and_a_half')
               end
             else
-              distance_in_words << pluralize(count, locale.t(unit))
+              distance_in_words << pluralize_unit_with_locale(count, unit, locale)
             end
 
             distance_in_minutes -= count * minutes_per_unit
           end
 
           if include_seconds && (seconds_count = (timespan % 60).to_i) > 0
-            distance_in_words << pluralize(seconds_count, locale.t(:second))
+            distance_in_words << pluralize_unit_with_locale(seconds_count, 'second', locale)
           end
 
-          distance_in_words.insert(-2, locale.t(:and)) if distance_in_words.length > 2
-          distance_in_words.join(' ')
+          if distance_in_words.length > 2
+            locale.t(:template_long, rest: distance_in_words[0..-2].join(' '), last: distance_in_words.last)
+          else
+            distance_in_words.join(' ')
+          end
         end
       end
 
       private
 
       # Simplified reimplementation of Rails' ActionView::Helpers::TextHelper::pluralize
-      def pluralize(count, singular)
-        word = count == 1 ? singular : singular.pluralize
-        "#{count || 0} #{word}"
+      def pluralize_unit_with_locale(count, unit, locale)
+        singular = locale.t(:"units.#{unit}")
+        unit_word = count == 1 ? singular : singular.pluralize
+        locale.t(:template, count: count, unit: unit_word)
       end
 
     end
