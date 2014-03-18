@@ -45,5 +45,32 @@ describe TimeWillTell::Helpers::DateHelper do
         helper.exact_distance_of_time_in_words(from_time, to_time)
       ).to eq '4 days 15 minutes'
     end
+
+    context 'with a custom locale' do
+      let(:locale) { :fr }
+
+      {
+        [2 * HOUR + 33 * MINUTE + 44 * SECOND] => '2 heures 33 minutes',
+        [1 * HOUR + 30 * MINUTE] => '1 heure et demie',
+        [3 * YEAR + 11 * MONTH + 21 * SECOND, include_seconds: true] => '3 ans 11 mois et 21 secondes',
+        [45 * DAY + 1 * MINUTE] => '1 mois 15 jours et 1 minute',
+        [1 * DAY + 2 * HOUR + 30 * MINUTE + 5 * SECOND, include_seconds: true] => '1 jour 2 heures et demie et 5 secondes',
+        [30 * MINUTE] => 'une demie heure',
+      }.each do |args, expected|
+        it "outputs '#{expected}'" do
+          timespan = args[0]
+          options  = args[1]
+
+          from_time = Time.now
+          to_time   = from_time + timespan
+
+          I18n.with_locale locale do
+            expect(
+              helper.exact_distance_of_time_in_words(*[from_time, to_time, options].compact)
+            ).to eq expected
+          end
+        end
+      end
+    end
   end
 end

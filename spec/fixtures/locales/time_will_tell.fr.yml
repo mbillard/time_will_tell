@@ -1,0 +1,53 @@
+fr:
+  date:
+    abbr_month_names:
+      - ~
+      - jan.
+      - fév.
+      - mar.
+      - avr.
+      - mai
+      - juin
+      - juil.
+      - août
+      - sept.
+      - oct.
+      - nov.
+      - déc.
+    month_names:
+      - ~
+      - janvier
+      - février
+      - mars
+      - avril
+      - mai
+      - juin
+      - juillet
+      - août
+      - septembre
+      - octobre
+      - novembre
+      - décembre
+
+  time_will_tell:
+    date_range:
+      different_months_same_year: "%{from_day} %{from_month} %{sep} %{to_day} %{to_month} %{year}"
+      different_years: "%{from_day} %{from_month} %{from_year} %{sep} %{to_day} %{to_month} %{to_year}"
+      same_month: "%{from_day} %{sep} %{to_day} %{month} %{year}"
+      same_date: "%{from_day} %{month} %{year}"
+
+    distance_in_words:
+      template: "%{count} %{unit}"
+      template_long: "%{rest} et %{last}"
+
+      units:
+        second: seconde
+        minute: minute
+        hour: heure
+        day: jour
+        month: mois
+        year: an
+
+      special:
+        half_an_hour: une demie heure
+        and_a_half: et demie
