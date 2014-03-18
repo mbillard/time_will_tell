@@ -1,40 +1,19 @@
 module TimeWillTell
   module Helpers
     module DateRangeHelper
-      SHORT_MONTH_NAMES = [nil, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].freeze
-      LONG_MONTH_NAMES = [nil,
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ].freeze
-
-      DATE_RANGES_TEMPLATES = {
-        different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}, %{year}",
-        different_years: "%{from_month} %{from_day}, %{from_year} %{sep} %{to_month} %{to_day}, %{to_year}",
-        same_month: "%{month} %{from_day} %{sep} %{to_day}, %{year}",
-        same_date: "%{month} %{from_day}, %{year}"
-      }.freeze
 
       def date_range(from_date, to_date, options = {})
         format    = options.fetch(:format, :short)
+        scope     = options.fetch(:scope, 'time_will_tell.date_range')
         separator = options.fetch(:separator, '—')
 
-        month_names = format.to_sym == :short ? SHORT_MONTH_NAMES : LONG_MONTH_NAMES
+        month_names = format.to_sym == :short ? I18n.t("date.abbr_month_names") : I18n.t("date.month_names")
 
         from_date, to_date = to_date, from_date if from_date > to_date
         from_day   = from_date.day
         from_month = month_names[from_date.month]
         from_year  = from_date.year
-        to_day  = to_date.day
+        to_day     = to_date.day
 
         dates = { from_day: from_day, sep: separator }
 
@@ -60,13 +39,9 @@ module TimeWillTell
           end
         end
 
-        date_range = DATE_RANGES_TEMPLATES[template].dup
-        dates.each do |key, value|
-          date_range.gsub!("%{#{key}}", value.to_s)
-        end
-
-        date_range
+        I18n.t("#{scope}.#{template}", dates)
       end
+
     end
   end
 end

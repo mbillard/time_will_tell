@@ -1,0 +1,18 @@
+en:
+  time_will_tell:
+    date_range:
+      different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}, %{year}"
+      different_years: "%{from_month} %{from_day}, %{from_year} %{sep} %{to_month} %{to_day}, %{to_year}"
+      same_month: "%{month} %{from_day} %{sep} %{to_day}, %{year}"
+      same_date: "%{month} %{from_day}, %{year}"
+
+    distance_in_words:
+      second: second
+      minute: minute
+      hour: hour
+      day: day
+      month: month
+      year: year
+      half_an_hour: half an hour
+      and_a_half: and a half
+      and: and

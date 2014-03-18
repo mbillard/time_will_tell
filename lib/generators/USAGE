@@ -1,0 +1,3 @@
+To copy the default TimeWillTell locale file to your Rails App just do:
+
+    rails generate time_will_tell:install
