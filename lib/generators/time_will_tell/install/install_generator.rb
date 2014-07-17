@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module TimeWillTell
   module Generators
     class InstallGenerator < Rails::Generators::Base
