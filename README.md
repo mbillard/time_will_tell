@@ -76,15 +76,28 @@ The output depends on whether the dates are on the same day, month and year.
 
 #### Options
 
+##### format
+
 You can choose to display the full month names by specifying `format: :long`.
 
     date_range(from_date, to_date, format: :long)
     # January 30 - February 5, 2013
 
-You can also choose a different separator if you don't like this guy `-`.
+##### separator
+
+You can choose a different separator if you don't like this guy `-`.
 
     date_range(from_date, to_date, separator: 'to')
     # Oct 3 to 8, 2012
+
+##### show_year
+
+Sometimes you don't want the year to show up in the date range.
+
+    date_range(from_date, to_date, show_year: false)
+    # Jan 30 - Feb 5
+
+By default the year will always be shown. Also, if the dates are in different years, the years will be shown even if `show_year` is `false`.
 
 #### Locales
 
