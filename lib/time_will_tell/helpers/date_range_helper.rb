@@ -6,6 +6,7 @@ module TimeWillTell
         format    = options.fetch(:format, :short)
         scope     = options.fetch(:scope, 'time_will_tell.date_range')
         separator = options.fetch(:separator, '—')
+        show_year = options.fetch(:show_year, true)
 
         month_names = format.to_sym == :short ? I18n.t("date.abbr_month_names") : I18n.t("date.month_names")
 
@@ -39,7 +40,13 @@ module TimeWillTell
           end
         end
 
-        I18n.t("#{scope}.#{template}", dates)
+        without_year = I18n.t("#{scope}.#{template}", dates)
+
+        if show_year && from_date.year == to_date.year
+          I18n.t("#{scope}.with_year", date_range: without_year, year: from_year)
+        else
+          without_year
+        end
       end
 
     end

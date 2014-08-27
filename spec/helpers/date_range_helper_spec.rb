@@ -11,18 +11,18 @@ describe TimeWillTell::Helpers::DateRangeHelper do
   describe '#date_range' do
     {
       # short form
-      [Date.new(2012, 10, 3), Date.new(2012, 10, 8)] => 'Oct 3 — 8, 2012',
-      [Date.new(2013, 1, 30), Date.new(2013, 2, 5)] => 'Jan 30 — Feb 5, 2013',
-      [Date.new(2012, 12, 26), Date.new(2013, 1, 3)] => 'Dec 26, 2012 — Jan 3, 2013',
-      [Date.new(2013, 8, 24), Date.new(2013, 8, 24)] => 'Aug 24, 2013',
-      [Date.new(2014, 2, 10), Date.new(2015, 2, 10)] => 'Feb 10, 2014 — Feb 10, 2015',
+      [Date.new(2012, 10, 3),  Date.new(2012, 10, 8)] => 'Oct 3 — 8, 2012',
+      [Date.new(2013, 1, 30),  Date.new(2013, 2, 5)]  => 'Jan 30 — Feb 5, 2013',
+      [Date.new(2012, 12, 26), Date.new(2013, 1, 3)]  => 'Dec 26, 2012 — Jan 3, 2013',
+      [Date.new(2013, 8, 24),  Date.new(2013, 8, 24)] => 'Aug 24, 2013',
+      [Date.new(2014, 2, 10),  Date.new(2015, 2, 10)] => 'Feb 10, 2014 — Feb 10, 2015',
 
       # long form
-      [Date.new(2012, 10, 3), Date.new(2012, 10, 8), format: :long] => 'October 3 — 8, 2012',
-      [Date.new(2013, 1, 30), Date.new(2013, 2, 5), format: :long] => 'January 30 — February 5, 2013',
-      [Date.new(2012, 12, 26), Date.new(2013, 1, 3), format: :long] => 'December 26, 2012 — January 3, 2013',
-      [Date.new(2013, 8, 24), Date.new(2013, 8, 24), format: :long] => 'August 24, 2013',
-      [Date.new(2014, 2, 10), Date.new(2015, 2, 10), format: :long] => 'February 10, 2014 — February 10, 2015',
+      [Date.new(2012, 10, 3),  Date.new(2012, 10, 8), format: :long] => 'October 3 — 8, 2012',
+      [Date.new(2013, 1, 30),  Date.new(2013, 2, 5),  format: :long] => 'January 30 — February 5, 2013',
+      [Date.new(2012, 12, 26), Date.new(2013, 1, 3),  format: :long] => 'December 26, 2012 — January 3, 2013',
+      [Date.new(2013, 8, 24),  Date.new(2013, 8, 24), format: :long] => 'August 24, 2013',
+      [Date.new(2014, 2, 10),  Date.new(2015, 2, 10), format: :long] => 'February 10, 2014 — February 10, 2015',
     }.each do |args, expected|
       it "outputs '#{expected}" do
         from_date = args[0]
@@ -52,6 +52,27 @@ describe TimeWillTell::Helpers::DateRangeHelper do
         helper.date_range(from_date, to_date, separator: '~')
       ).to eq 'Oct 31 ~ Dec 25, 2013'
     end
+
+    context 'when show_year option is false' do
+      let(:options) { { show_year: false } }
+
+      subject { helper.date_range(from_date, to_date, options) }
+
+      {
+        [Date.new(2012, 10, 3),  Date.new(2012, 10, 8)] => 'Oct 3 — 8',
+        [Date.new(2013, 1, 30),  Date.new(2013, 2, 5)]  => 'Jan 30 — Feb 5',
+        [Date.new(2012, 12, 26), Date.new(2013, 1, 3)]  => 'Dec 26, 2012 — Jan 3, 2013',
+        [Date.new(2013, 8, 24),  Date.new(2013, 8, 24)] => 'Aug 24',
+        [Date.new(2014, 2, 10),  Date.new(2015, 2, 10)] => 'Feb 10, 2014 — Feb 10, 2015',
+      }.each do |args, expected|
+        context "from #{args[0]} to #{args[1]}" do
+          let(:from_date) { args[0] }
+          let(:to_date)   { args[1] }
+
+          it { should eq expected }
+        end
+      end
+    end # when show_year option is false
 
     context 'with a custom locale' do
       let(:locale) { :fr }
